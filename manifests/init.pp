@@ -4,10 +4,10 @@
 # @example
 #    class {'freeipa':
 #        ipa_role                    => 'master',
-#        domain                      => 'example.lan',
-#        ipa_server_fqdn             => 'ipa-server-1.example.lan',
-#        puppet_admin_password       => 'vagrant123',
-#        directory_services_password => 'vagrant123',
+#        domain                      => 'example.com',
+#        ipa_server_fqdn             => 'ipa-server-1.example.com',
+#        puppet_admin_password       => 'secret123',
+#        directory_services_password => 'secret123',
 #        install_ipa_server          => true,
 #        ip_address                  => '10.10.10.35',
 #        enable_ip_address           => true,

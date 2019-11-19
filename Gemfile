@@ -28,21 +28,11 @@ group :development do
   gem "puppet-module-posix-dev-r#{minor_version}", '~> 0.3',     require: false, platforms: [:ruby]
   gem "puppet-module-win-default-r#{minor_version}", '~> 0.3',   require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "puppet-module-win-dev-r#{minor_version}", '~> 0.3',       require: false, platforms: [:mswin, :mingw, :x64_mingw]
-  gem "facter",                                                  require: false
-  gem "hiera",                                                   require: false
-  gem "parallel_tests",                                          require: false
-  gem "rspec-puppet",                                            require: false
-  gem "puppetlabs_spec_helper",                                  require: false
-  gem "beaker",                                                  require: false
-  gem "beaker-puppet",                                           require: false
   gem "beaker-rspec",                                            require: false
+  gem "beaker-puppet",                                           require: false
+  gem "beaker-docker",                                           require: false
   gem "beaker-puppet_install_helper",                            require: false
   gem "beaker-module_install_helper",                            require: false
-  gem "metadata-json-lint",                                      require: false
-  gem "puppet-lint",                                             require: false
-  gem "rspec",                                                   require: false
-  gem "rake",                                                    require: false
-  gem "beaker-vagrant",                                          require: false
   gem "bolt",                                                    require: false
   gem "beaker-task_helper",                                      require: false
 end

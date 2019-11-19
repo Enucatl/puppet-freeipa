@@ -17,20 +17,10 @@ appveyor.yml:
 Gemfile:
   required:
     ':development':
-      - gem: 'facter'
-      - gem: 'hiera'
-      - gem: 'parallel_tests'
-      - gem: 'rspec-puppet'
-      - gem: 'puppetlabs_spec_helper'
-      - gem: 'beaker'
-      - gem: 'beaker-puppet'
       - gem: 'beaker-rspec'
+      - gem: 'beaker-puppet'
+      - gem: 'beaker-docker'
       - gem: 'beaker-puppet_install_helper'
       - gem: 'beaker-module_install_helper'
-      - gem: 'metadata-json-lint'
-      - gem: 'puppet-lint'
-      - gem: 'rspec'
-      - gem: 'rake'
-      - gem: 'beaker-vagrant'
       - gem: 'bolt'
       - gem: 'beaker-task_helper'
