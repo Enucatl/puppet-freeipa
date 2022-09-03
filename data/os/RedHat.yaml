@@ -1,0 +1,10 @@
+---
+
+freeipa::helpers::flushcache::cmd: >
+  if [ -x /usr/sbin/sss_cache ]; then
+    /usr/sbin/sss_cache -UGNA >/dev/null 2>&1 ;
+  else
+    /usr/bin/find /var/lib/sss/db -type f -exec rm -f \"{}\" ; ;
+  fi
+freeipa::ldaputils_package_name: openldap-clients
+freeipa::ipa_client_package_name: ipa-client

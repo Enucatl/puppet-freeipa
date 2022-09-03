@@ -4,111 +4,59 @@
 # @example
 #   include freeipa::install::server
 #
-# @api private
 #
-class freeipa::install::server {
-  assert_private()
+class freeipa::install::server (Hash $options) {
 
-  if $facts['iparole'] != 'client' {
-    Exec {
-      path =>  '/usr/local/bin/:/bin/:/sbin',
-    }
-
-    package{$freeipa::ipa_server_package_name:
-      ensure => present,
-    }
-
-    if $freeipa::server_install_ldaputils {
-      package { $freeipa::ldaputils_package_name:
-        ensure => present,
-      }
-    }
-
-    $server_install_cmd_opts_idstart = "--idstart=${freeipa::idstart}"
-
-    if $freeipa::enable_hostname {
-      $server_install_cmd_opts_hostname = "--hostname=${freeipa::ipa_server_fqdn}"
-        end
-    } else {
-      $server_install_cmd_opts_hostname = ''
-    }
-
-    if $freeipa::enable_ip_address {
-      $server_install_cmd_opts_ip_address = "--ip-address ${freeipa::ip_address}"
-    } else {
-      $server_install_cmd_opts_ip_address = ''
-    }
-
-    if $freeipa::final_configure_dns_server {
-      $server_install_cmd_opts_setup_dns = '--setup-dns --auto-reverse'
-    } else {
-      $server_install_cmd_opts_setup_dns = ''
-    }
-
-    if $freeipa::configure_ntp {
-      $server_install_cmd_opts_no_ntp = ''
-    } else {
-      $server_install_cmd_opts_no_ntp = '--no-ntp'
-    }
-
-    if $freeipa::install_ca {
-      $server_install_cmd_opts_setup_ca = '--setup-ca'
-    } else {
-      $server_install_cmd_opts_setup_ca = ''
-    }
-
-    if $freeipa::final_configure_dns_server {
-      if size($freeipa::custom_dns_forwarders) > 0 {
-        $server_install_cmd_opts_forwarders = join(
-          prefix(
-            $freeipa::custom_dns_forwarders,
-            '--forwarder '),
-          ' '
-        )
-      }
-      else {
-        $server_install_cmd_opts_forwarders = '--no-forwarders'
-      }
-    }
-    else {
-      $server_install_cmd_opts_forwarders = ''
-    }
-
-    if $freeipa::webui_redirect {
-      $server_install_cmd_opts_no_ui_redirect = ''
-    } else {
-      $server_install_cmd_opts_no_ui_redirect = '--no-ui-redirect'
-    }
-
-    if $freeipa::ipa_role == 'master' {
-      contain 'freeipa::install::server::master'
-    } elsif $freeipa::ipa_role == 'replica' {
-      contain 'freeipa::install::server::replica'
-    }
-
-    ensure_resource (
-      'service',
-      'httpd',
-      {ensure => 'running'},
-    )
-
-    service { 'ipa':
-      ensure  => 'running',
-      enable  => true,
-      require => Exec["server_install_${freeipa::ipa_server_fqdn}"],
-    }
-
-    if $freeipa::install_sssd {
-      service { 'sssd':
-        ensure  => 'running',
-        enable  => true,
-        require => Package[$freeipa::sssd_package_name],
-      }
-    }
-
-    contain freeipa::helpers::flushcache
-
-  } else {
-    fail ("to change ipa_role from '${facts['iparole']}' to '${freeipa::ipa_role}' is not supported.")
+  package { $freeipa::ipa_server_package_name:
+    ensure => present,
   }
+
+  package { $freeipa::sssd_package_name:
+    ensure => present,
+  }
+
+  package { $freeipa::ldaputils_package_name:
+    ensure => present,
+  }
+
+  service { 'httpd':
+    ensure => 'running',
+    enable  => true,
+  }
+
+  $install_script = '/etc/ipa/server_install.sh'
+  
+  file { $install_script:
+    content => stdlib::deferrable_epp('freeipa/server_install.sh.epp',
+    $options),
+    ensure  => present,
+    owner   => 'root',
+    mode    => '0740',
+    notify  => Exec["server_install"],
+  }
+
+  exec { "server_install":
+    command   => '/etc/ipa/server_install.sh',
+    timeout   => 0,
+    unless    => '/usr/sbin/ipactl status > /dev/null 2>&1',
+    creates   => '/etc/ipa/default.conf',
+    logoutput => 'on_failure',
+    notify    => Class['Freeipa::Helpers::Flushcache'],
+    before    => Service['sssd'],
+  }
+
+  service { 'ipa':
+    ensure  => 'running',
+    enable  => true,
+    require => Exec["server_install"],
+  }
+
+  service { 'sssd':
+    ensure  => 'running',
+    enable  => true,
+    require => Package[$freeipa::sssd_package_name],
+  }
+
+  contain freeipa::helpers::flushcache
+
 }

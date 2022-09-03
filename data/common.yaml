@@ -1,0 +1,6 @@
+---
+
+freeipa::ipa_server_package_name: ipa-server
+freeipa::sssd_package_name: sssd-common
+freeipa::sssdtools_package_name: sssd-tools
+freeipa::autofs_package_name: autofs
