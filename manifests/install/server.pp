@@ -27,12 +27,14 @@ class freeipa::install::server (Hash $options) {
   $install_script = '/etc/ipa/server_install.sh'
   
   file { $install_script:
-    content => stdlib::deferrable_epp('freeipa/server_install.sh.epp',
-    $options),
-    ensure  => present,
-    owner   => 'root',
-    mode    => '0740',
-    notify  => Exec["server_install"],
+    content    => stdlib::deferrable_epp(
+      'freeipa/server_install.sh.epp',
+      {'options' => $options}
+    ), 
+    ensure     => present,
+    owner      => 'root',
+    mode       => '0740',
+    notify     => Exec["server_install"],
   }
 
   exec { "server_install":
