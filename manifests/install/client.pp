@@ -27,7 +27,7 @@ class freeipa::install::client (Hash $options) {
   exec { 'freeipa_client_install':
     command   => '/etc/ipa/client_install.sh',
     timeout   => 0,
-    unless    => 'test -f /etc/ipa/default.conf',
+    unless    => '/usr/bin/test -f /etc/ipa/default.conf',
     creates   => '/etc/ipa/default.conf',
     logoutput => 'on_failure',
     before    => Service['sssd'],
