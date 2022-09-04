@@ -12,6 +12,7 @@ class freeipa::install::client (Hash $options) {
   }
 
   $install_script = '/etc/ipa/client_install.sh'
+
   file { $install_script:
     content    => stdlib::deferrable_epp(
       'freeipa/client_install.sh.epp',
@@ -24,13 +25,12 @@ class freeipa::install::client (Hash $options) {
   }
 
   exec { 'freeipa_client_install':
-    command   => $client_install_cmd,
+    command   => '/etc/ipa/client_install.sh',
     timeout   => 0,
     unless    => 'test -f /etc/ipa/default.conf',
     creates   => '/etc/ipa/default.conf',
     logoutput => 'on_failure',
     before    => Service['sssd'],
-    provider  => 'shell',
   }
 
   service { 'sssd':
