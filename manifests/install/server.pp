@@ -17,14 +17,15 @@ class freeipa::install::server (Hash $options) {
   }
 
   file { '/etc/ipa/server_install.sh':
-    content    => stdlib::deferrable_epp(
+    content => stdlib::deferrable_epp(
       'freeipa/server_install.sh.epp',
       {'options' => $options}
     ), 
-    ensure     => present,
-    owner      => 'root',
-    mode       => '0500',
-    notify     => Exec['freeipa_server_install'],
+    ensure  => present,
+    owner   => 'root',
+    mode    => '0500',
+    notify  => Exec['freeipa_server_install'],
+    require => Package[$freeipa::ipa_server_package_name],
   }
 
   exec { 'freeipa_server_install':
