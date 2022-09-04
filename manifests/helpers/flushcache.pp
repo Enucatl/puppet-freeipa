@@ -6,7 +6,7 @@
 #
 class freeipa::helpers::flushcache (String $cmd) {
 
-  exec { "ipa_flushcache_${freeipa::ipa_server_fqdn}":
+  exec { "ipa_flushcache":
     command     => "/bin/bash -c ${cmd}",
     returns     => ['0','1','2'],
     notify      => Service['sssd'],

@@ -11,14 +11,6 @@ class freeipa::install::server (Hash $options) {
     ensure => present,
   }
 
-  package { $freeipa::sssd_package_name:
-    ensure => present,
-  }
-
-  package { $freeipa::ldaputils_package_name:
-    ensure => present,
-  }
-
   service { 'httpd':
     ensure => 'running',
     enable  => true,
@@ -33,11 +25,11 @@ class freeipa::install::server (Hash $options) {
     ), 
     ensure     => present,
     owner      => 'root',
-    mode       => '0740',
-    notify     => Exec["server_install"],
+    mode       => '0600',
+    notify     => Exec["freeipa::server_install"],
   }
 
-  exec { "server_install":
+  exec { "freeipa::server_install":
     command   => '/etc/ipa/server_install.sh',
     timeout   => 0,
     unless    => '/usr/sbin/ipactl status > /dev/null 2>&1',

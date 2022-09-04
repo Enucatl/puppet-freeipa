@@ -16,4 +16,21 @@ class freeipa (
   if $facts['kernel'] != 'Linux' or $facts['osfamily'] == 'Windows' {
     fail('This module is only supported on Linux.')
   }
+
+  package { $freeipa::ldaputils_package_name:
+    ensure => present,
+  }
+
+  package { $freeipa::sssd_package_name:
+    ensure => present,
+  }
+
+  package { $freeipa::sssdtools_package_name:
+    ensure => present,
+  }
+
+  package { $freeipa::autofs_package_name:
+    ensure => present,
+  }
+
 }
