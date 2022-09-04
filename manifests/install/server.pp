@@ -13,12 +13,10 @@ class freeipa::install::server (Hash $options) {
 
   service { 'httpd':
     ensure => 'running',
-    enable  => true,
+    enable => true,
   }
 
-  $install_script = '/etc/ipa/server_install.sh'
-  
-  file { $install_script:
+  file { '/etc/ipa/server_install.sh':
     content    => stdlib::deferrable_epp(
       'freeipa/server_install.sh.epp',
       {'options' => $options}

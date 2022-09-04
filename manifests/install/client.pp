@@ -11,9 +11,7 @@ class freeipa::install::client (Hash $options) {
     ensure => present,
   }
 
-  $install_script = '/etc/ipa/client_install.sh'
-
-  file { $install_script:
+  file { '/etc/ipa/client_install.sh':
     content    => stdlib::deferrable_epp(
       'freeipa/client_install.sh.epp',
       {'options' => $options}
