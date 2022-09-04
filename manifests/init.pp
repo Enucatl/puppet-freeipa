@@ -33,4 +33,10 @@ class freeipa (
     ensure => present,
   }
 
+  service { 'sssd':
+    ensure  => 'running',
+    enable  => true,
+    require => Package[$freeipa::sssd_package_name],
+  }
+
 }

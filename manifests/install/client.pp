@@ -31,10 +31,4 @@ class freeipa::install::client (Hash $options) {
     before    => Service['sssd'],
   }
 
-  service { 'sssd':
-    ensure  => 'running',
-    enable  => true,
-    require => Package[$freeipa::sssd_package_name],
-  }
-
 }

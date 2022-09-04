@@ -43,12 +43,6 @@ class freeipa::install::server (Hash $options) {
     require => Exec['freeipa_server_install'],
   }
 
-  service { 'sssd':
-    ensure  => 'running',
-    enable  => true,
-    require => Package[$freeipa::sssd_package_name],
-  }
-
   contain freeipa::helpers::flushcache
 
 }
