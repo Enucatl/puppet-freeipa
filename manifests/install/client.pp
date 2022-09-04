@@ -7,6 +7,12 @@
 #
 class freeipa::install::client (Hash $options) {
 
+  if $facts['os']['family'] == 'Debian' and $facts['os']['name'] == 'Debian' {
+    class { 'apt::backports':
+      before => Package[$freeipa::ipa_client_package_name]
+    }
+  }
+
   package{ $freeipa::ipa_client_package_name:
     ensure => present,
   }

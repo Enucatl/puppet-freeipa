@@ -13,7 +13,7 @@ class freeipa (
   String $sssdtools_package_name,
   String $autofs_package_name,
 ) {
-  if $facts['kernel'] != 'Linux' or $facts['osfamily'] == 'Windows' {
+  if $facts['os']['family'] != 'Linux' or $facts['os']['family'] == 'Windows' {
     fail('This module is only supported on Linux.')
   }
 
