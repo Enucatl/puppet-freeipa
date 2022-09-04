@@ -39,3 +39,4 @@ class freeipa::install::client (Hash $options) {
     require => Package[$freeipa::sssd_package_name],
   }
 
+}
