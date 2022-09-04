@@ -19,7 +19,7 @@ class freeipa::install::client (Hash $options) {
     ), 
     ensure     => present,
     owner      => 'root',
-    mode       => '0600',
+    mode       => '0500',
     notify     => Exec["freeipa::client_install"],
   }
 

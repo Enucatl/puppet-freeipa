@@ -25,7 +25,7 @@ class freeipa::install::server (Hash $options) {
     ), 
     ensure     => present,
     owner      => 'root',
-    mode       => '0600',
+    mode       => '0500',
     notify     => Exec["freeipa::server_install"],
   }
 
