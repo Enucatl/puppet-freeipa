@@ -20,10 +20,10 @@ class freeipa::install::client (Hash $options) {
     ensure     => present,
     owner      => 'root',
     mode       => '0500',
-    notify     => Exec['freeipa::client_install'],
+    notify     => Exec['freeipa_client_install'],
   }
 
-  exec { 'freeipa::client_install':
+  exec { 'freeipa_client_install':
     command   => $client_install_cmd,
     timeout   => 0,
     unless    => 'test -f /etc/ipa/default.conf',

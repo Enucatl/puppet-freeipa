@@ -26,10 +26,10 @@ class freeipa::install::server (Hash $options) {
     ensure     => present,
     owner      => 'root',
     mode       => '0500',
-    notify     => Exec['freeipa::server_install'],
+    notify     => Exec['freeipa_server_install'],
   }
 
-  exec { 'freeipa::server_install':
+  exec { 'freeipa_server_install':
     command   => '/etc/ipa/server_install.sh',
     timeout   => 0,
     unless    => '/usr/sbin/ipactl status > /dev/null 2>&1',
@@ -42,7 +42,7 @@ class freeipa::install::server (Hash $options) {
   service { 'ipa':
     ensure  => 'running',
     enable  => true,
-    require => Exec['freeipa::server_install'],
+    require => Exec['freeipa_server_install'],
   }
 
   service { 'sssd':
