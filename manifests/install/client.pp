@@ -3,8 +3,8 @@
 #
 # @example
 #   include freeipa::install::client
-#
-#
+
+
 class freeipa::install::client (Hash $options) {
 
   if $facts['os']['family'] == 'Debian' and $facts['os']['name'] == 'Debian' {
@@ -33,7 +33,6 @@ class freeipa::install::client (Hash $options) {
   exec { 'freeipa_client_install':
     command   => '/etc/ipa/client_install.sh',
     timeout   => 0,
-    unless    => '/usr/bin/test -f /etc/ipa/default.conf',
     creates   => '/etc/ipa/default.conf',
     logoutput => 'on_failure',
     before    => Service['sssd'],
