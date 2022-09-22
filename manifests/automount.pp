@@ -22,7 +22,7 @@ class freeipa::automount (Hash $options={}) {
   exec { 'freeipa_client_automount':
     command => '/etc/ipa/client_automount.sh',
     timeout => 0,
-    unless  => "grep 'services.*autofs' /etc/sssd/sssd.conf",
+    unless  => "/usr/bin/grep 'services.*autofs' /etc/sssd/sssd.conf",
     require => Class['Freeipa::install::client'],
     logoutput => 'on_failure',
     before    => Service['sssd'],
