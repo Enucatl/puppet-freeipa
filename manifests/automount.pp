@@ -5,7 +5,7 @@
 #   include freeipa::automount
 
 
-class freeipa::automount (Hash $options) {
+class freeipa::automount (Hash $options={}) {
 
   file { '/etc/ipa/client_automount.sh':
     content => stdlib::deferrable_epp(
