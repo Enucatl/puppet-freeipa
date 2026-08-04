@@ -25,8 +25,16 @@ Puppet::Type.newtype(:freeipa_client_enrollment) do
     validate { |value| raise ArgumentError, 'principal must not be empty' if value.empty? }
   end
 
-  newparam(:password) do
+  newproperty(:password) do
     sensitive true
+
+    def retrieve
+      should
+    end
+
+    def insync?(_current)
+      true
+    end
   end
 
   newparam(:mkhomedir, boolean: true)
