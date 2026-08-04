@@ -26,7 +26,7 @@ describe Puppet::Type.type(:freeipa_client_enrollment).provider(:ipa) do
   let(:stdout) { StringIO.new }
   let(:stderr) { StringIO.new }
   let(:exit_status) { instance_double(Process::Status, exitstatus: 0) }
-  let(:wait_thread) { instance_double(Thread, join: true, value: exit_status, pid: 1234) }
+  let(:wait_thread) { double('wait thread', join: true, value: exit_status, pid: 1234) }
 
   before do
     allow(File).to receive(:exist?).with(config_path).and_return(false)
