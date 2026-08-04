@@ -5,6 +5,7 @@ require 'stringio'
 require 'puppet/type/freeipa_client_enrollment'
 require 'puppet/provider/freeipa_client_enrollment/ipa'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Puppet::Type.type(:freeipa_client_enrollment).provider(:ipa) do
   let(:password) { sensitive("s p'a\\ss\n;$(touch /tmp/nope)") }
   let(:resource) do
@@ -26,7 +27,10 @@ describe Puppet::Type.type(:freeipa_client_enrollment).provider(:ipa) do
   let(:stdout) { StringIO.new }
   let(:stderr) { StringIO.new }
   let(:exit_status) { instance_double(Process::Status, exitstatus: 0) }
+  # Open3 adds #pid dynamically to the wait thread instance.
+  # rubocop:disable RSpec/VerifiedDoubles
   let(:wait_thread) { double('wait thread', join: true, value: exit_status, pid: 1234) }
+  # rubocop:enable RSpec/VerifiedDoubles
 
   before do
     allow(File).to receive(:exist?).with(config_path).and_return(false)
@@ -108,3 +112,4 @@ describe Puppet::Type.type(:freeipa_client_enrollment).provider(:ipa) do
     expect { provider.create }.to raise_error(Puppet::Error, /could not be executed.*redacted/)
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
