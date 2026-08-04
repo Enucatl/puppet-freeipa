@@ -29,7 +29,7 @@ Puppet::Type.newtype(:freeipa_client_enrollment) do
     sensitive true
   end
 
-  newparam(:mkhomedir, boolean: true, parent: Puppet::Parameter::Boolean)
+  newparam(:mkhomedir, boolean: true)
   newparam(:hostname)
 
   newparam(:install_timeout) do
