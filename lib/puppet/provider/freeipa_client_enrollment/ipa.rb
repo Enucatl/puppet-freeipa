@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'puppet/util/execution'
+require 'open3'
 require 'timeout'
 
 Puppet::Type.type(:freeipa_client_enrollment).provide(:ipa) do
@@ -44,12 +44,20 @@ Puppet::Type.type(:freeipa_client_enrollment).provide(:ipa) do
   end
 
   def execute_installer
-    Puppet::Util::Execution.execute(
-      install_command,
-      failonfail: false,
-      combine: true,
-      timeout: resource[:install_timeout]
-    )
+    stdin, stdout, stderr, wait_thread = Open3.popen3(*install_command)
+    stdin.write(unwrap_password)
+    stdin.write("\n")
+    stdin.close
+
+    unless wait_thread.join(resource[:install_timeout])
+      Process.kill('TERM', wait_thread.pid)
+      wait_thread.join(5) || Process.kill('KILL', wait_thread.pid)
+      raise Timeout::Error
+    end
+
+    stdout.read
+    stderr.read
+    wait_thread.value
   rescue Timeout::Error
     raise Puppet::Error,
           "FreeIPA client enrollment timed out after #{resource[:install_timeout]} seconds; output was redacted"
@@ -84,8 +92,7 @@ Puppet::Type.type(:freeipa_client_enrollment).provide(:ipa) do
       '--unattended',
       "--domain=#{resource[:domain]}",
       "--server=#{resource[:server]}",
-      "--principal=#{resource[:principal]}",
-      "--password=#{unwrap_password}"
+      "--principal=#{resource[:principal]}"
     ]
     command << '--mkhomedir' if resource[:mkhomedir]
     command << "--hostname=#{resource[:hostname]}" if resource[:hostname]
