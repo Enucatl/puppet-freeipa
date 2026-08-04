@@ -92,7 +92,8 @@ Puppet::Type.type(:freeipa_client_enrollment).provide(:ipa) do
       '--unattended',
       "--domain=#{resource[:domain]}",
       "--server=#{resource[:server]}",
-      "--principal=#{resource[:principal]}"
+      "--principal=#{resource[:principal]}",
+      "--password=#{unwrap_password}"
     ]
     command << '--mkhomedir' if resource[:mkhomedir]
     command << "--hostname=#{resource[:hostname]}" if resource[:hostname]
