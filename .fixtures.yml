@@ -1,8 +1,5 @@
 fixtures:
   repositories:
-    stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-    epel: 'https://github.com/voxpupuli/puppet-epel.git'
-    ruby_task_helper: 'https://github.com/puppetlabs/puppetlabs-ruby_task_helper.git'
-    yumrepo_core:
-      repo: 'https://github.com/puppetlabs/puppetlabs-yumrepo_core.git'
-      puppet_version: ">= 6.0.0"
+    stdlib:
+      repo: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
+      ref: 'v9.7.0'

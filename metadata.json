@@ -1,57 +1,30 @@
 {
   "name": "Enucatl-freeipa",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "author": "Enucatl",
-  "summary": "Install FreeIPA Servers and Clients. Forked from adullact-freeipa.",
-  "license": "GPL-3.0",
+  "summary": "Enroll supported Ubuntu hosts as FreeIPA clients",
+  "license": "GPL-3.0-only",
   "source": "https://github.com/Enucatl/puppet-freeipa",
   "project_page": "https://github.com/Enucatl/puppet-freeipa",
   "issues_url": "https://github.com/Enucatl/puppet-freeipa/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-apt",
-      "version_requirement": ">= 9.0.0"
-    },
-    {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 8.4.0"
-    },
-    {
-      "name": "puppet-epel",
-      "version_requirement": ">= 1.3.1 < 4.0.0"
+      "version_requirement": ">= 9.0.0 < 10.0.0"
     }
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "CentOS",
-      "operatingsystemrelease": [
-        "7",
-        "8"
-      ]
-    },
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "10",
-        "11"
-      ]
-    },
-    {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "18.04",
-        "20.04",
-        "22.04"
-      ]
+      "operatingsystemrelease": ["24.04", "26.04"]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 7.0.0 < 9.0.0"
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     }
   ],
-  "pdk-version": "1.13.0",
-  "template-url": "pdk-default#1.13.0",
-  "template-ref": "1.13.0-0-g66e1443"
+  "pdk-version": "3.4.0",
+  "template-url": "pdk-default#3.4.0"
 }
