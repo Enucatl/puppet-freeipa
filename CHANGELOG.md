@@ -1,5 +1,10 @@
 # Changelog
 
+## 7.1.0
+
+- Enroll Debian 13 hosts with the same `freeipa::client` class used on Ubuntu
+  24.04 and 26.04. Debian point releases such as 13.6 match on major version 13.
+
 ## 7.0.0
 
 ### Breaking

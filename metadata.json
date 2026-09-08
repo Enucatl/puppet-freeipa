@@ -1,8 +1,8 @@
 {
   "name": "Enucatl-freeipa",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "author": "Enucatl",
-  "summary": "Enroll supported Ubuntu hosts as FreeIPA clients",
+  "summary": "Enroll supported Ubuntu and Debian 13 hosts as FreeIPA clients",
   "license": "GPL-3.0-only",
   "source": "https://github.com/Enucatl/puppet-freeipa",
   "project_page": "https://github.com/Enucatl/puppet-freeipa",
@@ -17,6 +17,10 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": ["24.04", "26.04"]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["13"]
     }
   ],
   "requirements": [

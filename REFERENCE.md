@@ -2,8 +2,8 @@
 
 ## `freeipa::client`
 
-Enrolls a supported Ubuntu host with FreeIPA and manages SSSD after successful
-enrollment.
+Enrolls a supported Ubuntu or Debian 13 host with FreeIPA and manages SSSD after
+successful enrollment.
 
 ```puppet
 class freeipa::client (
@@ -18,5 +18,6 @@ class freeipa::client (
 )
 ```
 
-Only Ubuntu 24.04 and 26.04 are supported. Existing enrollment is validated,
-not modified. See README for the credential and process-inspection boundary.
+Only Ubuntu 24.04, Ubuntu 26.04, and Debian 13 are supported. Existing
+enrollment is validated, not modified. See README for the credential and
+process-inspection boundary.

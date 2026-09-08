@@ -1,4 +1,4 @@
-# @summary Enrolls an Ubuntu host as a FreeIPA client.
+# @summary Enrolls an Ubuntu or Debian 13 host as a FreeIPA client.
 #
 # Enrollment parameters are used only when /etc/ipa/default.conf is absent.
 # Existing enrollment that does not match the requested domain, server, or
@@ -13,8 +13,12 @@ class freeipa::client (
   String[1]              $package_name    = 'freeipa-client',
   Integer[60, 3600]      $install_timeout = 1800,
 ) {
-  unless $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['full'] in ['24.04', '26.04'] {
-    fail("freeipa::client supports only Ubuntu 24.04 and 26.04; got ${facts['os']['name']} ${facts['os']['release']['full']}")
+  $os_name = $facts['os']['name']
+  $os_full = $facts['os']['release']['full']
+  $ubuntu_supported = $os_name == 'Ubuntu' and $os_full in ['24.04', '26.04']
+  $debian_supported = $os_name == 'Debian' and $facts['os']['release']['major'] == '13'
+  unless $ubuntu_supported or $debian_supported {
+    fail("freeipa::client supports only Ubuntu 24.04, Ubuntu 26.04, and Debian 13; got ${os_name} ${os_full}")
   }
 
   package { $package_name:

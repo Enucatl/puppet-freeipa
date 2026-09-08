@@ -1,6 +1,7 @@
 # freeipa
 
-Puppet 8 module for enrolling FreeIPA clients on Ubuntu 24.04 and 26.04.
+Puppet 8 module for enrolling FreeIPA clients on Ubuntu 24.04, Ubuntu 26.04,
+and Debian 13.
 Version 7 is client-only and intentionally removes every server, replica,
 automount, and administrative API from earlier releases. FreeIPA server
 lifecycle belongs outside this module (for example, in Docker Compose).
@@ -59,6 +60,6 @@ bundle exec rubocop
 ```
 
 Acceptance testing requires disposable privileged AlmaLinux 10 FreeIPA and
-Ubuntu 24.04/26.04 systemd machines. It must verify enrollment, the host
-keytab, identity lookup, SSSD, a zero-change second run, and safe failure on a
-requested domain/server mismatch.
+Ubuntu 24.04/26.04 or Debian 13 systemd machines. It must verify enrollment, the
+host keytab, identity lookup, SSSD, a zero-change second run, and safe failure
+on a requested domain/server mismatch.

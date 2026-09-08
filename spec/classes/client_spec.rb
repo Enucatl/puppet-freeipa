@@ -44,15 +44,29 @@ describe 'freeipa::client' do
     it { is_expected.to compile }
   end
 
-  context 'when running on an unsupported release' do
-    let(:facts) { { os: { 'name' => 'Ubuntu', 'release' => { 'full' => '22.04' } } } }
+  context 'when running on Debian 13' do
+    let(:facts) do
+      {
+        os: { 'name' => 'Debian', 'family' => 'Debian', 'release' => { 'full' => '13.6', 'major' => '13' } },
+        kernel: 'Linux'
+      }
+    end
 
-    it { is_expected.to compile.and_raise_error(/supports only Ubuntu 24.04 and 26.04/) }
+    it { is_expected.to compile.with_all_deps }
+    it { is_expected.to contain_package('freeipa-client').with_ensure('installed') }
+    it { is_expected.to contain_service('sssd').with(ensure: 'running', enable: true) }
+    it { is_expected.to contain_freeipa_client_enrollment('default') }
   end
 
-  context 'when running on a non-Ubuntu operating system' do
-    let(:facts) { { os: { 'name' => 'Debian', 'release' => { 'full' => '12' } } } }
+  context 'when running on an unsupported Ubuntu release' do
+    let(:facts) { { os: { 'name' => 'Ubuntu', 'release' => { 'full' => '22.04' } } } }
 
-    it { is_expected.to compile.and_raise_error(/supports only Ubuntu/) }
+    it { is_expected.to compile.and_raise_error(/supports only Ubuntu 24.04, Ubuntu 26.04, and Debian 13/) }
+  end
+
+  context 'when running on an unsupported Debian release' do
+    let(:facts) { { os: { 'name' => 'Debian', 'release' => { 'full' => '12.11', 'major' => '12' } } } }
+
+    it { is_expected.to compile.and_raise_error(/supports only Ubuntu 24.04, Ubuntu 26.04, and Debian 13/) }
   end
 end
